@@ -12,9 +12,6 @@
 #include <filesystem>
 
 #include "imgui.h"
-#include "vulkan/vulkan.h"
-
-void check_vk_result(VkResult err);
 
 struct GLFWwindow;
 
@@ -68,22 +65,8 @@ namespace Walnut {
 		GLFWwindow* GetWindowHandle() const { return m_WindowHandle; }
 		bool IsTitleBarHovered() const { return m_TitleBarHovered; }
 
-		static VkInstance GetInstance();
-		static VkPhysicalDevice GetPhysicalDevice();
-		static VkDevice GetDevice();
-
-		static VkCommandBuffer GetCommandBuffer(bool begin);
-		static void FlushCommandBuffer(VkCommandBuffer commandBuffer);
-
-		static void SubmitResourceFree(std::function<void()>&& func);
-
 		static ImFont* GetFont(const std::string& name);
-
-		template<typename Func>
-		void QueueEvent(Func&& func)
-		{
-			m_EventQueue.push(func);
-		}
+		
 	private:
 		void Init();
 		void Shutdown();
@@ -91,6 +74,10 @@ namespace Walnut {
 		// For custom titlebars
 		void UI_DrawTitlebar(float& outTitlebarHeight);
 		void UI_DrawMenubar();
+
+		void StartCustomWindow();
+		void EndCustomWindow();
+
 	private:
 		ApplicationSpecification m_Specification;
 		GLFWwindow* m_WindowHandle = nullptr;
@@ -105,13 +92,14 @@ namespace Walnut {
 		std::vector<std::shared_ptr<Layer>> m_LayerStack;
 		std::function<void()> m_MenubarCallback;
 
-		std::mutex m_EventQueueMutex;
-		std::queue<std::function<void()>> m_EventQueue;
+		std::thread* m_customThread = nullptr;
+		bool m_customStartUpEnd = false;
 
 		// Resources
 		// TODO(Yan): move out of application class since this can't be tied
 		//            to application lifetime
 		std::shared_ptr<Walnut::Image> m_AppHeaderIcon;
+		std::shared_ptr<Walnut::Image> m_AppHeaderIconHov;
 		std::shared_ptr<Walnut::Image> m_IconClose;
 		std::shared_ptr<Walnut::Image> m_IconMinimize;
 		std::shared_ptr<Walnut::Image> m_IconMaximize;

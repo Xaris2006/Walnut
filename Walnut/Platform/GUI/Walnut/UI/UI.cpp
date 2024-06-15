@@ -54,11 +54,11 @@ namespace Walnut::UI {
 	{
 		auto* drawList = ImGui::GetForegroundDrawList();
 		if (ImGui::IsItemActive())
-			drawList->AddImage(imagePressed->GetDescriptorSet(), rectMin, rectMax, ImVec2(0, 0), ImVec2(1, 1), tintPressed);
+			drawList->AddImage((ImTextureID)imagePressed->GetRendererID(), rectMin, rectMax, ImVec2(0, 0), ImVec2(1, 1), tintPressed);
 		else if (ImGui::IsItemHovered())
-			drawList->AddImage(imagePressed->GetDescriptorSet(), rectMin, rectMax, ImVec2(0, 0), ImVec2(1, 1), tintHovered);
+			drawList->AddImage((ImTextureID)imagePressed->GetRendererID(), rectMin, rectMax, ImVec2(0, 0), ImVec2(1, 1), tintHovered);
 		else
-			drawList->AddImage(imagePressed->GetDescriptorSet(), rectMin, rectMax, ImVec2(0, 0), ImVec2(1, 1), tintNormal);
+			drawList->AddImage((ImTextureID)imagePressed->GetRendererID(), rectMin, rectMax, ImVec2(0, 0), ImVec2(1, 1), tintNormal);
 	};
 
 	void DrawButtonImage(const std::shared_ptr<Walnut::Image>& imageNormal, const std::shared_ptr<Walnut::Image>& imageHovered, const std::shared_ptr<Walnut::Image>& imagePressed,
@@ -550,6 +550,20 @@ namespace Walnut::UI {
 			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 
 		return ImGui::Button(label);
+	}
+	
+	void TextCentered(const char* label, const ImVec2& size)
+	{
+		ImGuiStyle& style = ImGui::GetStyle();
+
+		float actualSize = ImGui::CalcTextSize(label).x + style.FramePadding.x * 2.0f;
+		float avail = ImGui::GetContentRegionAvail().x;
+
+		float off = (avail - actualSize) * 0.5f;
+		if (off > 0.0f)
+			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
+
+		return ImGui::Text(label);
 	}
 
 	void DrawBorder(ImRect rect, float thickness, float rounding, float offsetX, float offsetY)

@@ -28,7 +28,7 @@ public:
 		if (m_AboutModalOpen)
 		{
 			auto image = Walnut::Application::Get().GetApplicationIcon();
-			ImGui::Image(image->GetDescriptorSet(), { 48, 48 });
+			ImGui::Image((ImTextureID)image->GetRendererID(), { 48, 48 });
 
 			ImGui::SameLine();
 			Walnut::UI::ShiftCursorX(20.0f);

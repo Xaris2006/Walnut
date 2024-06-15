@@ -21,9 +21,10 @@ project "Walnut"
 
       "../vendor/imgui",
       "../vendor/glfw/include",
+      "../vendor/glad/include",
       "../vendor/stb_image",
 
-      "%{IncludeDir.VulkanSDK}",
+      --"%{IncludeDir.VulkanSDK}",
       "%{IncludeDir.glm}",
       "%{IncludeDir.spdlog}",
    }
@@ -32,8 +33,8 @@ project "Walnut"
    {
        "ImGui",
        "GLFW",
-
-       "%{Library.Vulkan}",
+       "Glad"
+       --"%{Library.Vulkan}",
    }
 
    targetdir ("../../bin/" .. outputdir .. "/%{prj.name}")
