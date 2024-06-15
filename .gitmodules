@@ -7,3 +7,6 @@
 [submodule "vendor/GLFW"]
 	path = vendor/GLFW
 	url = https://github.com/TheCherno/GLFW
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/Xaris2006/imgui.git
