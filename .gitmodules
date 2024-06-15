@@ -16,3 +16,6 @@
 [submodule "Walnut-Modules/Walnut-Networking"]
 	path = Walnut-Modules/Walnut-Networking
 	url = https://github.com/StudioCherno/Walnut-Networking
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/Xaris2006/imgui.git
