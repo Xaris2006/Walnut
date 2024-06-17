@@ -12,7 +12,7 @@
 #include "imgui_internal.h"
 
 #include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include "Glad_imgui_impl_opengl3.h"
 
 #include <stdio.h>          // printf, fprintf
 #include <stdlib.h>         // abort
