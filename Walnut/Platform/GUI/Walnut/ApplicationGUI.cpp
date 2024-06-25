@@ -211,8 +211,8 @@ namespace Walnut {
 		{
 			uint32_t w, h;
 			void* data = Image::Decode(g_WalnutIcon, sizeof(g_WalnutIcon), w, h);
-			m_AppHeaderIcon = std::make_shared<Walnut::Image>("ls.png");
-			m_AppHeaderIconHov = std::make_shared<Walnut::Image>("lsOn.png");
+			m_AppHeaderIcon = std::make_shared<Walnut::Image>(m_Specification.IconPath.string());
+			m_AppHeaderIconHov = std::make_shared<Walnut::Image>(m_Specification.HoveredIconPath.string());
 			free(data);
 		}
 		{
@@ -257,6 +257,7 @@ namespace Walnut {
 		// NOTE(Yan): to avoid doing this manually, we shouldn't
 		//            store resources in this Application class
 		m_AppHeaderIcon.reset();
+		m_AppHeaderIconHov.reset();
 		m_IconClose.reset();
 		m_IconMinimize.reset();
 		m_IconMaximize.reset();
@@ -310,7 +311,7 @@ namespace Walnut {
 				
 				if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 				{
-					std::cout << "Open!\n";
+					m_Specification.FuncIconPressed();
 				}
 			}
 			else
@@ -549,8 +550,8 @@ namespace Walnut {
 				ImGuiIO& io = ImGui::GetIO();
 				ImGuiStyle& style = ImGui::GetStyle();
 				float minWinSizeX = style.WindowMinSize.x;
-				style.WindowMinSize.x = 370.0f;
-				ImGui::DockSpace(ImGui::GetID("MyDockspace"));
+				style.WindowMinSize.x = m_minSize;
+				ImGui::DockSpace(ImGui::GetID("MyDockspace"), ImVec2(0, 0), m_DockNodeFlag);
 				style.WindowMinSize.x = minWinSizeX;
 
 				if (!m_Specification.CustomTitlebar)
@@ -623,6 +624,16 @@ namespace Walnut {
 			return nullptr;
 
 		return s_Fonts.at(name);
+	}
+
+	void Application::SetMinImGuiWindowSize(float minSize)
+	{
+		m_minSize = minSize;
+	}
+
+	void Application::SetDockNodeFlags(ImGuiDockNodeFlags flags)
+	{
+		m_DockNodeFlag = flags;
 	}
 
 	void Application::StartCustomWindow()

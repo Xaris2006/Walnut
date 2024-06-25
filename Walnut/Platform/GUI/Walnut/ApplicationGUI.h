@@ -24,6 +24,8 @@ namespace Walnut {
 		uint32_t Height = 900;
 
 		std::filesystem::path IconPath;
+		std::filesystem::path HoveredIconPath;
+		std::function<void()> FuncIconPressed = []() { return; };
 
 		bool WindowResizeable = true;
 
@@ -67,6 +69,9 @@ namespace Walnut {
 
 		static ImFont* GetFont(const std::string& name);
 		
+		void SetMinImGuiWindowSize(float minSize);
+		void SetDockNodeFlags(ImGuiDockNodeFlags flags);
+
 	private:
 		void Init();
 		void Shutdown();
@@ -104,6 +109,9 @@ namespace Walnut {
 		std::shared_ptr<Walnut::Image> m_IconMinimize;
 		std::shared_ptr<Walnut::Image> m_IconMaximize;
 		std::shared_ptr<Walnut::Image> m_IconRestore;
+
+		float m_minSize = 370.0f;
+		ImGuiDockNodeFlags m_DockNodeFlag = 0;
 	};
 
 	// Implemented by CLIENT

@@ -7,6 +7,12 @@
 class ExampleLayer : public Walnut::Layer
 {
 public:
+	virtual void OnAttach() override
+	{
+		//Walnut::Application::Get().SetDockNodeFlags(ImGuiDockNodeFlags_NoResize);
+		//Walnut::Application::Get().SetMinImGuiWindowSize(50);
+	}
+
 	virtual void OnUIRender() override
 	{
 		ImGui::Begin("Hello");
