@@ -23,6 +23,7 @@ namespace Walnut {
 		uint32_t Width = 1600;
 		uint32_t Height = 900;
 
+		std::filesystem::path AppIconPath;
 		std::filesystem::path IconPath;
 		std::filesystem::path HoveredIconPath;
 		std::function<void()> FuncIconPressed = []() { return; };

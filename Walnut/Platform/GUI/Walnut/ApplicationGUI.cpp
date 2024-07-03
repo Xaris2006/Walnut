@@ -140,9 +140,9 @@ namespace Walnut {
 		// Set icon
 		GLFWimage icon;
 		int channels;
-		if (!m_Specification.IconPath.empty())
+		if (!m_Specification.AppIconPath.empty())
 		{
-			std::string iconPathStr = m_Specification.IconPath.string();
+			std::string iconPathStr = m_Specification.AppIconPath.string();
 			icon.pixels = stbi_load(iconPathStr.c_str(), &icon.width, &icon.height, &channels, 4);
 			glfwSetWindowIcon(m_WindowHandle, 1, &icon);
 			stbi_image_free(icon.pixels);
