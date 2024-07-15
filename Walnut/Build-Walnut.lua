@@ -20,6 +20,7 @@ project "Walnut"
       "Platform/GUI",
 
       "../vendor/imgui",
+      "../vendor/implot",
       "../vendor/glfw/include",
       "../vendor/glad/include",
       "../vendor/stb_image",
@@ -32,6 +33,7 @@ project "Walnut"
    links
    {
        "ImGui",
+       "ImPlot",
        "GLFW",
        "Glad"
        --"%{Library.Vulkan}",

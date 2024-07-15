@@ -10,6 +10,7 @@ project "WalnutApp"
    includedirs
    {
       "../vendor/imgui",
+      "../vendor/implot",
       "../vendor/glfw/include",
 
       "../Walnut/Source",
