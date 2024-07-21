@@ -16,3 +16,6 @@
 [submodule "vendor/implot"]
 	path = vendor/implot
 	url = https://github.com/Xaris2006/implot.git
+[submodule "vendor/imgui"]
+	path = vendor/imgui
+	url = https://github.com/Xaris2006/imgui.git
