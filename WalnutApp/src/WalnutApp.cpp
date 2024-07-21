@@ -4,6 +4,8 @@
 #include "Walnut/Image.h"
 #include "Walnut/UI/UI.h"
 
+#include "implot.h"
+
 class ExampleLayer : public Walnut::Layer
 {
 public:
@@ -20,6 +22,7 @@ public:
 		ImGui::End();
 
 		ImGui::ShowDemoWindow();
+		ImPlot::ShowDemoWindow();
 
 		UI_DrawAboutModal();
 	}

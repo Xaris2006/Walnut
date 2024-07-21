@@ -5,6 +5,8 @@
 
 #include "glad/glad.h"
 
+#include "implot.h"
+
 //
 // Adapted from Dear ImGui OpenGl3-GLFW example
 //
@@ -160,9 +162,10 @@ namespace Walnut {
 		glfwGetFramebufferSize(m_WindowHandle, &w, &h);
 		
 
-		// Setup Dear ImGui context
+		// Setup Dear ImGui-ImPlot context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImPlot::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -269,6 +272,7 @@ namespace Walnut {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+		ImPlot::DestroyContext();
 
 		glfwDestroyWindow(m_WindowHandle);
 		glfwTerminate();
