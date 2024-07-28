@@ -42,7 +42,7 @@ namespace Walnut {
 	class Application
 	{
 	public:
-		Application(const ApplicationSpecification& applicationSpecification = ApplicationSpecification());
+		Application(const ApplicationSpecification& applicationSpecification = ApplicationSpecification(), float MenuBarSize = 50.0f);
 		~Application();
 
 		static Application& Get();
@@ -111,6 +111,7 @@ namespace Walnut {
 		std::shared_ptr<Walnut::Image> m_IconMaximize;
 		std::shared_ptr<Walnut::Image> m_IconRestore;
 
+		float m_MenuBarSize = 50;
 		float m_minSize = 370.0f;
 		ImGuiDockNodeFlags m_DockNodeFlag = 0;
 	};

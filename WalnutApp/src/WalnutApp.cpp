@@ -71,7 +71,7 @@ Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
 	spec.Name = "Walnut Example";
 	spec.CustomTitlebar = true;
 
-	Walnut::Application* app = new Walnut::Application(spec);
+	Walnut::Application* app = new Walnut::Application(spec, 70);
 	std::shared_ptr<ExampleLayer> exampleLayer = std::make_shared<ExampleLayer>();
 	app->PushLayer(exampleLayer);
 	app->SetMenubarCallback([app, exampleLayer]()

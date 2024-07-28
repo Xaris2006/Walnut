@@ -66,8 +66,8 @@ namespace Walnut {
 #include "Walnut/Embed/Walnut-Icon.embed"
 #include "Walnut/Embed/WindowImages.embed"
 
-	Application::Application(const ApplicationSpecification& specification)
-		: m_Specification(specification)
+	Application::Application(const ApplicationSpecification& specification, float MenuBarSize)
+		: m_Specification(specification), m_MenuBarSize(MenuBarSize)
 	{
 		s_Instance = this;
 
@@ -331,15 +331,15 @@ namespace Walnut {
 
 		static float moveOffsetX;
 		static float moveOffsetY;
-		const float w = ImGui::GetContentRegionAvail().x;
+		const float w = ImGui::GetContentRegionAvail().x - m_MenuBarSize;
 		const float buttonsAreaWidth = 94;
 
 		// Title bar drag area
 		// On Windows we hook into the GLFW win32 window internals
-		ImGui::SetCursorPos(ImVec2(windowPadding.x + 2 * logoRectSpace, windowPadding.y + titlebarVerticalOffset)); // Reset cursor pos
+		ImGui::SetCursorPos(ImVec2(windowPadding.x + 2 * logoRectSpace + m_MenuBarSize, windowPadding.y + titlebarVerticalOffset)); // Reset cursor pos
 		// DEBUG DRAG BOUNDS
-		// fgDrawList->AddRect(ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + w - buttonsAreaWidth, ImGui::GetCursorScreenPos().y + titlebarHeight), UI::Colors::Theme::invalidPrefab);
-		ImGui::InvisibleButton("##titleBarDragZone", ImVec2(w - 2 * logoRectSpace- buttonsAreaWidth, titlebarHeight));
+		// fgDrawList->AddRect(ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + w - 2 * logoRectSpace-buttonsAreaWidth/*w - buttonsAreaWidth*/, ImGui::GetCursorScreenPos().y + titlebarHeight), UI::Colors::Theme::invalidPrefab);
+		ImGui::InvisibleButton("##titleBarDragZone", ImVec2(w - 2 * logoRectSpace - buttonsAreaWidth, titlebarHeight));
 
 		m_TitleBarHovered = ImGui::IsItemHovered();
 
