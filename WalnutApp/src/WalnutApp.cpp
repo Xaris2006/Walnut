@@ -6,11 +6,14 @@
 
 #include "implot.h"
 
+#include "GLFW/glfw3.h"
+
 class ExampleLayer : public Walnut::Layer
 {
 public:
 	virtual void OnAttach() override
 	{
+		glfwShowWindow(Walnut::Application::Get().GetWindowHandle());
 		//Walnut::Application::Get().SetDockNodeFlags(ImGuiDockNodeFlags_NoResize);
 		//Walnut::Application::Get().SetMinImGuiWindowSize(50);
 	}

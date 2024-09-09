@@ -18,15 +18,14 @@
 
 #include <stdio.h>          // printf, fprintf
 #include <stdlib.h>         // abort
+#define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
+#include "GLFW/glfw3native.h"
 #include <glm/glm.hpp>
 
 #include "ImGui/ImGuiTheme.h"
 
 #include "stb_image.h"
-//#include "../SDL2/include/SDL.h"
-//#include "../SDL2/include/SDL_image.h"
-
 
 #include <iostream>
 
@@ -475,14 +474,12 @@ namespace Walnut {
 	{
 		m_Running = true;
 
-		EndCustomWindow();
-		
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 		ImGuiIO& io = ImGui::GetIO();
 
 		glfwMakeContextCurrent(m_WindowHandle);
 
-		glfwShowWindow(m_WindowHandle);
+		//glfwShowWindow(m_WindowHandle);
 
 		// Main loop
 		while (!glfwWindowShouldClose(m_WindowHandle) && m_Running)
@@ -594,8 +591,13 @@ namespace Walnut {
 			//else
 			//	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-			if(main_is_minimized)
-				std::this_thread::sleep_for(std::chrono::milliseconds(5));
+			if (main_is_minimized || GetForegroundWindow() != glfwGetWin32Window(m_WindowHandle))
+			{
+				SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
+				std::this_thread::sleep_for(std::chrono::milliseconds(200));
+			}
+			else
+				SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 			
 			glfwSwapBuffers(m_WindowHandle);
 
@@ -603,6 +605,9 @@ namespace Walnut {
 			m_FrameTime = time - m_LastFrameTime;
 			m_TimeStep = glm::min<float>(m_FrameTime, 0.0333f);
 			m_LastFrameTime = time;
+
+			if(m_FrameTime < 1.0f/40.0f)
+				std::this_thread::sleep_for(std::chrono::milliseconds((int)(1000.0f*(1.0f/40.0f - m_FrameTime))));
 		}
 
 	}
@@ -638,85 +643,5 @@ namespace Walnut {
 	void Application::SetDockNodeFlags(ImGuiDockNodeFlags flags)
 	{
 		m_DockNodeFlag = flags;
-	}
-
-	void Application::StartCustomWindow()
-	{
-#if 0
-		m_customThread = new std::thread(
-			[this]()
-			{
-				if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-					//printf("error initializing SDL: %s\n", SDL_GetError());
-				}
-				SDL_Window* win = SDL_CreateWindow("Start",
-					SDL_WINDOWPOS_CENTERED,
-					SDL_WINDOWPOS_CENTERED,
-					1000, 1000, 0);
-
-				// triggers the program that controls
-	// your graphics hardware and sets flags
-				Uint32 render_flags = SDL_RENDERER_ACCELERATED;
-
-				// creates a renderer to render our images
-				SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
-
-				// creates a surface to load an image into the main memory
-				SDL_Surface* surface;
-
-				// please provide a path for your image
-				surface = IMG_Load("ls.png");
-
-				// loads image to our graphics hardware memory.
-				SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surface);
-
-				// clears main-memory
-				SDL_FreeSurface(surface);
-
-				// let us control our image position
-				// so that we can move it with our keyboard.
-				SDL_Rect dest;
-
-				// connects our texture with dest to control position
-				SDL_QueryTexture(tex, NULL, NULL, &dest.w, &dest.h);
-
-
-				// animation loop
-				while (!close) {
-
-					// clears the screen
-					SDL_RenderClear(rend);
-					SDL_RenderCopy(rend, tex, NULL, &dest);
-
-					// triggers the double buffers
-					// for multiple rendering
-					SDL_RenderPresent(rend);
-
-					// calculates to 60 fps
-					SDL_Delay(1000 / 60);
-				}
-
-				// destroy texture
-				SDL_DestroyTexture(tex);
-
-				// destroy renderer
-				SDL_DestroyRenderer(rend);
-
-				// destroy window
-				SDL_DestroyWindow(win);
-
-				// close SDL
-				SDL_Quit();
-			}
-		);
-#endif
-	}
-
-	void Application::EndCustomWindow()
-	{
-		m_customStartUpEnd = true;
-		if (m_customThread)
-			m_customThread->join();
-		m_customThread = nullptr;
 	}
 }

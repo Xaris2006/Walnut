@@ -81,9 +81,6 @@ namespace Walnut {
 		void UI_DrawTitlebar(float& outTitlebarHeight);
 		void UI_DrawMenubar();
 
-		void StartCustomWindow();
-		void EndCustomWindow();
-
 	private:
 		ApplicationSpecification m_Specification;
 		GLFWwindow* m_WindowHandle = nullptr;
@@ -97,9 +94,6 @@ namespace Walnut {
 
 		std::vector<std::shared_ptr<Layer>> m_LayerStack;
 		std::function<void()> m_MenubarCallback;
-
-		std::thread* m_customThread = nullptr;
-		bool m_customStartUpEnd = false;
 
 		// Resources
 		// TODO(Yan): move out of application class since this can't be tied
