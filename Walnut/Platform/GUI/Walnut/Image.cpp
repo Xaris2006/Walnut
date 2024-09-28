@@ -87,7 +87,6 @@ namespace Walnut {
 
 	void Image::SetData(const void* data)
 	{
-		glGenerateMipmap(GL_TEXTURE_2D);
 		glGenTextures(1, &m_RendererID);
 		glBindTexture(GL_TEXTURE_2D, m_RendererID);
 		

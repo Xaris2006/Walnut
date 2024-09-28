@@ -3,7 +3,6 @@ project "Walnut"
    language "C++"
    cppdialect "C++20"
    targetdir "bin/%{cfg.buildcfg}"
-   staticruntime "off"
 
    files
    {
@@ -49,16 +48,19 @@ project "Walnut"
    filter "configurations:Debug"
       defines { "WL_DEBUG" }
       runtime "Debug"
+      staticruntime "off"
       symbols "On"
 
    filter "configurations:Release"
       defines { "WL_RELEASE" }
       runtime "Release"
+      staticruntime "off"
       optimize "On"
       symbols "On"
 
    filter "configurations:Dist"
       defines { "WL_DIST" }
       runtime "Release"
+      staticruntime "on"
       optimize "On"
       symbols "Off"
